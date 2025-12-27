@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Calculator Pro</title>
+<style>
+    :root {
+        --bg: #f5f5f5;
+        --card: #ffffff;
+        --text: #222;
+        --accent: #4a8cff;
+    }
+
+    body.dark {
+        --bg: #0f0f0f;
+        --card: #1a1a1a;
+        --text: #eaeaea;
+        --accent: #6aa0ff;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--bg);
+        font-family: Arial, sans-serif;
+        transition: 0.3s;
+    }
+
+    .container {
+        background: var(--card);
+        padding: 25px;
+        width: 90%;
+        max-width: 420px;
+        border-radius: 18px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: var(--text);
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+        outline: none;
+        background: var(--card);
+        color: var(--text);
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        font-size: 17px;
+        border-radius: 10px;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    .result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--text);
+        min-height: 25px;
+    }
+
+    .toggle {
+        margin-top: 15px;
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--accent);
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Age Calculator Pro</h2>
+
+    <input type="date" id="birthdate">
+
+    <button onclick="calculateAge()">Hitung Usia</button>
+
+    <div class="result" id="result"></div>
+
+    <div class="toggle" onclick="toggleTheme()">🌙 Mode Gelap / ☀️ Mode Terang</div>
+</div>
+
+<script>
+    // Load theme dari localStorage
+    if(localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle("dark");
+        
+        if(document.body.classList.contains("dark")) {
+            localStorage.setItem("theme", "dark");
+        } else {
+            localStorage.setItem("theme", "light");
+        }
+    }
+
+    function calculateAge() {
+        const birthdate = document.getElementById("birthdate").value;
+        const result = document.getElementById("result");
+
+        if (!birthdate) {
+            result.innerHTML = "Isi tanggal lahir dulu bro.";
+            return;
+        }
+
+        const today = new Date();
+        const bday = new Date(birthdate);
+
+        let age = today.getFullYear() - bday.getFullYear();
+        const m = today.getMonth() - bday.getMonth();
+
+      // Penyesuaian bulan / tanggal
+        if (m < 0 || (m === 0 && today.getDate() < bday.getDate())) {
+            age--;
+        }
+
+        result.innerHTML = `Usia kamu: <span style="color:var(--accent)">${age} Tahun</span>`;
+    }
+</script>
+
+</body>
+</html>
